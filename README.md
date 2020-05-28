@@ -14,7 +14,8 @@ This is where the actual coding takes place, and the code is built around the UM
 - Signup/Signin to the system
 - Add a playground and wait for approval by admins
 - Add the available slots of their playgrounds
-- view their current booking, etc. \
+- view their current booking, etc.
+\
 **And allows the players to:**
 - Signup/Signin to the system
 - View the available playgrounds
