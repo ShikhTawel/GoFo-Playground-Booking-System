@@ -8,6 +8,11 @@ public class Address {
     private String neighborhood;
     private String city;
 
+    @Override
+    public String toString() {
+        return streetNumber + " " + streetName + ", " + neighborhood + ", " + city;
+    }
+
     public int getStreetNumber() {
         return streetNumber;
     }

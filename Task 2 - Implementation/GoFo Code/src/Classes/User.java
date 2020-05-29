@@ -2,7 +2,7 @@ package Classes;
 
 import java.util.Scanner;
 
-public class User {
+public abstract class User {
     protected String firstName;
     protected String lastName;
     protected String email;
@@ -12,33 +12,42 @@ public class User {
     protected Address address;
     protected eWallet ewallet;
 
-    public void updateInfo(int i,String update)
-    {
-        switch (i)
-        {
+    public User(String fn, String ln, String em, String pass, String un, String mn, Address ad) {
+        firstName = fn;
+        lastName = ln;
+        email = em;
+        password = pass;
+        username = un;
+        mobileNumber = mn;
+        address = ad;
+        ewallet = new eWallet();
+    }
+
+    public void updateInfo(int i, String update) {
+        switch (i) {
             case 1:
-                firstName=update;
+                firstName = update;
                 break;
             case 2:
-                lastName=update;
+                lastName = update;
                 break;
             case 3:
-                email=update;
+                email = update;
                 break;
             case 4:
-                username=update;
+                username = update;
                 break;
             case 5:
-                password=update;
+                password = update;
                 break;
             case 6:
-                mobileNumber=update;
+                mobileNumber = update;
                 break;
         }
     }
 
-    public void checkEWallet(){
-        System.out.println("Your Balance is: "+ ewallet.getBalance());
+    public void checkEWallet() {
+        System.out.println("Your Balance is: " + ewallet.getBalance());
     }
 
     public String getFirstName() {

@@ -9,28 +9,25 @@ public class eWallet {
         currentBalance = 0;
     }
 
-    public boolean deposit(double amount)
-    {
-        if(amount<=0)
+    public boolean deposit(double amount) {
+        if (amount <= 0)
             return false;
-        currentBalance+=amount;
+        currentBalance += amount;
         return true;
     }
 
-    public boolean withdraw(double amount)
-    {
-        if(amount>currentBalance)
+    public boolean withdraw(double amount) {
+        if (amount > currentBalance || amount <= 0)
             return false;
-        currentBalance-=amount;
+        currentBalance -= amount;
         return true;
     }
 
-    public boolean transfer(double amount, User user)
-    {
-        if(amount>currentBalance)
+    public boolean transfer(double amount, User user) {
+        if (amount > currentBalance || amount <= 0)
             return false;
-        user.getEwallet().currentBalance+=amount;
-        currentBalance-=amount;
+        user.getEwallet().currentBalance += amount;
+        currentBalance -= amount;
         return true;
     }
 
