@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class Player extends User {
 
-    ArrayList<Playground> bookedPlaygrounds;
-    ArrayList<TimeSlot> bookedTimeSlots;
-    Team teamOwned;
-    ArrayList<Team> teamsEnrolled;
+    private ArrayList<Playground> bookedPlaygrounds;
+    private ArrayList<TimeSlot> bookedTimeSlots;
+    private Team teamOwned;
+    private ArrayList<Team> teamsEnrolled;
 
     public Player(String fn, String ln, String em, String pass, String un, String mn, Address ad) {
         super(fn, ln, em, pass, un, mn, ad);
@@ -20,22 +20,8 @@ public class Player extends User {
         teamsEnrolled = new ArrayList<>();
     }
 
-    public ArrayList<Playground> filterPlaygrounds(ArrayList<Playground> playgrounds, TimeSlot ts) {
-        ArrayList<Playground> res = new ArrayList<Playground>();
-        for (int i = 0; i < playgrounds.size(); i++) {
-            for (int j = 0; j < playgrounds.get(i).getAvailability().size(); j++) {
-                TimeSlot t = playgrounds.get(i).getAvailability().get(j);
-                if (t.equals(ts) && !t.isBooked()) {
-                    res.add(playgrounds.get(i));
-                    break;
-                }
-            }
-        }
-        return res;
-    }
-
     public boolean bookPlayground(Playground playground, TimeSlot timeSlot) {
-        if (playground.bookPlayground(timeSlot, this.username)) {
+        if (playground.isActivated() && playground.bookPlayground(timeSlot, this.username) ) {
             bookedPlaygrounds.add(playground);
             bookedTimeSlots.add(timeSlot);
             return true;
@@ -45,8 +31,9 @@ public class Player extends User {
 
     public void createTeam(String name, ArrayList<Player> players) {
         teamOwned = new Team(name, username);
-        for (Player player: players) {
+        for (Player player : players) {
             teamOwned.addPlayer(player);
+            sendInvitations(player.getEmail());
         }
     }
 
@@ -54,8 +41,9 @@ public class Player extends User {
         if (teamOwned == null) return;
         teamOwned.setTeamName(newName);
         teamOwned.getPlayers().clear();
-        for (Player player: players) {
+        for (Player player : players) {
             teamOwned.addPlayer(player);
+            sendInvitations(player.getEmail());
         }
     }
 
@@ -70,38 +58,28 @@ public class Player extends User {
     }
 
     public void reportPlayground(Playground playground) {
-        playground.reportPlayground();
+        if (playground.isActivated()) {
+            playground.reportPlayground();
+        }
     }
 
     public ArrayList<Playground> getBookedPlaygrounds() {
         return bookedPlaygrounds;
     }
 
-    public void setBookedPlaygrounds(ArrayList<Playground> bookedPlaygrounds) {
-        this.bookedPlaygrounds = bookedPlaygrounds;
-    }
-
     public ArrayList<TimeSlot> getBookedTimeSlots() {
         return bookedTimeSlots;
-    }
-
-    public void setBookedTimeSlots(ArrayList<TimeSlot> bookedTimeSlots) {
-        this.bookedTimeSlots = bookedTimeSlots;
     }
 
     public Team getTeamOwned() {
         return teamOwned;
     }
 
-    public void setTeamOwned(Team teamOwned) {
-        this.teamOwned = teamOwned;
-    }
-
     public ArrayList<Team> getTeamsEnrolled() {
         return teamsEnrolled;
     }
 
-    public void setTeamsEnrolled(ArrayList<Team> teamsEnrolled) {
-        this.teamsEnrolled = teamsEnrolled;
+    private void sendInvitations(String email) {
+        System.out.println("Invitation sent to " + email);
     }
 }

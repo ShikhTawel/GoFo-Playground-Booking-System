@@ -1,11 +1,14 @@
 package src.System;
 
 import src.Playground.Playground;
+import src.Users.Administrator;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminUI implements MainMenu{
 
+    static private Administrator admin = new Administrator();
     private Scanner scanner = new Scanner(System.in);
     private ArrayList<Playground> playgrounds;
 
@@ -70,18 +73,18 @@ public class AdminUI implements MainMenu{
 
     private void viewPlaygrounds() {
         for (Playground playground : playgrounds) {
-            playground.toString();
+            System.out.println(playground.toString());
         }
     }
 
     private void viewUnactivated() {
         for (Playground playground : playgrounds) {
             if (!playground.isActivated()) {
-                playground.toString();
+                System.out.println(playground.toString());
                 System.out.println("Activate current playground? (Enter 'Y' or any key to skip)");
                 String option = scanner.nextLine();
                 if (option.equalsIgnoreCase("Y")) {
-                    playground.setActivated(true);
+                    admin.activatePlayground(playground);
                 }
             }
         }

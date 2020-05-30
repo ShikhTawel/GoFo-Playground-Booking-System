@@ -5,6 +5,27 @@ public class Administrator {
     private String username;
     private String password;
 
+    public Administrator() {
+        username = "admin";
+        password = "admin";
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Administrator(String username, String password) {
         username = username;
         password = password;
@@ -22,7 +43,4 @@ public class Administrator {
         playground.setActivated(false);
     }
 
-    public void deletePlayground(Playground playground) {
-        playground.setApproved(false);
-    }
 }

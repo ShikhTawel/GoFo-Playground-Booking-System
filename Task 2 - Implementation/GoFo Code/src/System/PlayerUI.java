@@ -5,7 +5,10 @@ import src.Playground.TimeSlot;
 import src.Users.Player;
 import src.Users.Team;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class PlayerUI implements MainMenu {
@@ -27,22 +30,71 @@ public class PlayerUI implements MainMenu {
 
     private void viewAvailablePlaygrounds() {
         for (Playground playground : playgrounds) {
-            playground.toString();
+            boolean printed = false;
+            for (int i = 0; i < playground.getAvailability().size(); ++i) {
+                if (!playground.getAvailability().get(i).isBooked() && playground.isActivated()) {
+                    if (!printed) {
+                        System.out.println(playground.getPlaygroundName());
+                        System.out.println(playground.getAddress().toString());
+                        printed = true;
+                    }
+                    System.out.println(playground.getAvailability().get(i).toString());
+                }
+            }
+            printed = false;
         }
     }
 
     private TimeSlot setTimeslot() {
+        int day, month, year, startingHour, endingHour;
         System.out.println("Enter timeslot details: ");
-        System.out.print("\tEnter day: ");
-        int day = scanner.nextInt();
-        System.out.print("\tEnter month: ");
-        int month = scanner.nextInt();
-        System.out.print("\tEnter year: ");
-        int year = scanner.nextInt();
-        System.out.print("\tEnter startingHour: ");
-        int startingHour = scanner.nextInt();
-        System.out.print("\tEnter endingHour: ");
-        int endingHour = scanner.nextInt();
+        while (true) {
+            System.out.print("\tEnter day: ");
+            day = scanner.nextInt();
+            if (day >= 1 && day <= 31) {
+                break;
+            } else {
+                System.out.println("***Enter valid day***");
+            }
+        }
+        while (true) {
+            System.out.print("\tEnter month: ");
+            month = scanner.nextInt();
+            if (month >= 1 && month <= 12) {
+                break;
+            } else {
+                System.out.println("***Enter valid month***");
+            }
+        }
+        while (true) {
+            System.out.print("\tEnter year: ");
+            LocalDate date = LocalDate.now();
+            year = scanner.nextInt();
+            if (year < date.getYear()) {
+                System.out.println("***Enter valid year***");
+            } else {
+                break;
+            }
+        }
+        while (true) {
+            System.out.print("\tEnter startingHour: ");
+            startingHour = scanner.nextInt();
+            if (startingHour < 0 || startingHour > 23) {
+                System.out.println("***Enter valid hour***");
+            }
+            else {
+                break;
+            }
+        }
+        while (true) {
+            System.out.print("\tEnter endingHour: ");
+            endingHour = scanner.nextInt();
+            if (endingHour < 0 || endingHour > 23) {
+                System.out.println("***Enter valid hour***");
+            } else {
+                break;
+            }
+        }
 
         return new TimeSlot(day, month, year, startingHour, endingHour);
     }
@@ -52,8 +104,9 @@ public class PlayerUI implements MainMenu {
         TimeSlot timeSlot = setTimeslot();
 
         for (Playground playground : playgrounds) {
-            if (playground.getAvailability().indexOf(timeSlot) != -1) {
-                playground.toString();
+            int timesoltIndex = playground.getAvailability().indexOf(timeSlot);
+            if (timesoltIndex!=-1 && !playground.getAvailability().get(timesoltIndex).isBooked() && playground.isActivated()) {
+                System.out.println(playground.toString());
             }
         }
     }
@@ -68,8 +121,7 @@ public class PlayerUI implements MainMenu {
         for (Playground playground : playgrounds) {
             if (playground.getBookingNumber() == bookingNumber) {
                 playgroundIndex = playground.getAvailability().indexOf(timeSlot);
-                if (playgroundIndex != -1) {
-                    playground.getAvailability().remove(playgroundIndex);
+                if (playgroundIndex != -1 && !playground.getAvailability().get(playgroundIndex).isBooked() && playground.isActivated()) {
                     players.get(currentPlayer).bookPlayground(playground, timeSlot);
                     booked = true;
                 }
@@ -82,17 +134,17 @@ public class PlayerUI implements MainMenu {
         System.out.print("Enter team name: ");
         String name = scanner.nextLine();
         Team team = new Team(name, players.get(currentPlayer).getUsername());
-        players.get(currentPlayer).setTeamOwned(team);
 
         String playerName;
         boolean added = false;
+        var teamPlayers = new ArrayList<Player>();
         while (true) {
             System.out.println("Enter player username to be added: ");
             playerName = scanner.nextLine();
             for (Player player : players) {
                 if (player.getUsername().equalsIgnoreCase(playerName)) {
-                    team.addPlayer(player);
-                    sendInvitations(player.getEmail());
+
+                    teamPlayers.add(player);
                     added = true;
                     break;
                 }
@@ -108,27 +160,28 @@ public class PlayerUI implements MainMenu {
                 break;
             }
         }
+        players.get(currentPlayer).createTeam(name,teamPlayers);
     }
 
     private void modifyTeam() {
-        if (players.get(currentPlayer).getTeamOwned()==null) {
+        if (players.get(currentPlayer).getTeamOwned() == null) {
             System.out.println("***There is no team to modify, consider creating a team firstly***");
             return;
         }
         System.out.print("Enter team name: ");
         String name = scanner.nextLine();
-        players.get(currentPlayer).getTeamOwned().setTeamName(name);
+        Team team = new Team(name, players.get(currentPlayer).getUsername());
 
         String playerName;
         boolean added = false;
-        players.get(currentPlayer).getTeamOwned().clearTeam();
+        var teamPlayers = new ArrayList<Player>();
         while (true) {
             System.out.println("Enter player username to be added: ");
             playerName = scanner.nextLine();
             for (Player player : players) {
                 if (player.getUsername().equalsIgnoreCase(playerName)) {
-                    players.get(currentPlayer).getTeamOwned().addPlayer(player);
-                    sendInvitations(player.getEmail());
+
+                    teamPlayers.add(player);
                     added = true;
                     break;
                 }
@@ -144,6 +197,7 @@ public class PlayerUI implements MainMenu {
                 break;
             }
         }
+        players.get(currentPlayer).modifyTeam(name,teamPlayers);
     }
 
     private boolean leaveTeam() {
@@ -152,17 +206,12 @@ public class PlayerUI implements MainMenu {
         return players.get(currentPlayer).leaveTeam(teamName);
     }
 
-    private void sendInvitations(String email) {
-        System.out.println("Invitation sent to " + email);
-    }
-
     private void reportPlayground() {
-        String playgroundName;
         System.out.println("Enter Playground name: ");
-        playgroundName = scanner.nextLine();
+        String playgroundName = scanner.nextLine();
         for (Playground playground : playgrounds) {
-            if (playground.getPlaygroundName().equalsIgnoreCase(playgroundName)) {
-                playground.reportPlayground();
+            if (playground.getPlaygroundName().equalsIgnoreCase(playgroundName) && playground.isActivated()) {
+                players.get(currentPlayer).reportPlayground(playground);
                 break;
             }
         }

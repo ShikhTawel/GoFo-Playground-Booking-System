@@ -33,12 +33,12 @@ public class TimeSlot {
         return booked;
     }
 
-    void book(String username) {
+    public void book(String username) {
         booked = true;
         bookedTo = username;
     }
 
-    void unbook() {
+    public void unbook() {
         booked = false;
         bookedTo = "";
     }

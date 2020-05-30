@@ -1,6 +1,7 @@
 package src.Playground;
 
 import src.System.Address;
+
 import java.util.ArrayList;
 
 public class Playground {
@@ -29,6 +30,9 @@ public class Playground {
     }
 
     public boolean bookPlayground(TimeSlot timeSlot, String username) {
+        if (!this.isActivated()) {
+            return false;
+        }
         for (int i = 0; i < availability.size(); i++)
             if (availability.get(i).equals(timeSlot)) {
                 if (availability.get(i).isBooked())

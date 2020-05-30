@@ -6,7 +6,7 @@ import src.Playground.TimeSlot;
 import java.util.Random;
 import java.util.Scanner;
 
-public final class UI {
+public final class UI implements MainMenu{
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -26,7 +26,12 @@ public final class UI {
         }
     }
 
-    public void sighUp() {
+    @Override
+    public void mainMenu() {
+
+    }
+
+    private void sighUp() {
         String username = "";
         String password = "";
 
@@ -60,7 +65,7 @@ public final class UI {
         // Add new user to the pool
     }
 
-    public void login() {
+    private void login() {
         String username;
         String password;
         boolean foundUser = false;
@@ -89,7 +94,7 @@ public final class UI {
         System.out.println("Login successfully");
     }
 
-    public void logout() {
+    private void logout() {
 
     }
 
@@ -125,10 +130,13 @@ public final class UI {
                 "(?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)" +
                 "{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:" +
                 "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-
-        // check Email available
-
+        takenEmail();
         return validEmail;
+    }
+    private boolean takenEmail() {
+        //check if the mail already signed up
+
+        return false;
     }
 
     private boolean checkUsername(String username) {
@@ -137,7 +145,7 @@ public final class UI {
         return existsUsername;
     }
 
-    public void sendEmailVerificationCode() {
+    private void sendEmailVerificationCode() {
         Random random = new Random();
         int code = random.nextInt(100000);
         String message = String.format("Your account verification code is %d", code);
