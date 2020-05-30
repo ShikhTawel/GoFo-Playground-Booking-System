@@ -1,5 +1,4 @@
-package Classes;
-
+package src.System;
 public class Main {
 
     public static void main(String[] args) {
