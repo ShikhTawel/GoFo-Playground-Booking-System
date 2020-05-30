@@ -25,4 +25,7 @@ This is where the actual coding takes place, and the code is built around the UM
 - Modify their own team, etc.
 ## Task 3 - Hosting and Documentation
 - Documenting the code implemented earlier using JavaDoc and generating the HTML pages for the documentation
+\
+Team members: @AmrBumadian - @eslamfawzy2001 - @ShikhTawel - @ZiadAmr14
+
 #### Under the supervision of Dr. Mohamed El Ramly
