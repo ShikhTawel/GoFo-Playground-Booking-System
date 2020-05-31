@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * {@code PlayerUI} class is used to enable players to interact with the system using the console
+ */
 public class PlayerUI {
 
     private Scanner scanner = new Scanner(System.in);
@@ -16,6 +19,10 @@ public class PlayerUI {
     private ArrayList<Player> players;
     private int currentPlayer;
 
+    /**
+     * A constructor for the {@code PlayerUI} object
+     * @param currentPlayer the index of the current player currently logged into the system
+     */
     public PlayerUI(ArrayList<Playground> playgrounds, ArrayList<Player> players, int currentPlayer) {
         this.playgrounds = playgrounds;
         this.players = players;
@@ -23,6 +30,9 @@ public class PlayerUI {
         mainMenu();
     }
 
+    /**
+     * A main menu the allows players to choose an operation to be done and redirects them to different parts of the system
+     */
     public void mainMenu() {
         String option = "";
         while (true) {
@@ -67,6 +77,9 @@ public class PlayerUI {
         System.out.println("\nLogging out ...");
     }
 
+    /**
+     * Outputs the available playgrounds and their available time slots
+     */
     private void viewAvailablePlaygrounds() {
         for (Playground playground : playgrounds) {
             if (!playground.isActivated()) continue;
@@ -85,6 +98,10 @@ public class PlayerUI {
         }
     }
 
+    /**
+     * Allows a user to enter the data of a time slot
+     * @return the time slot the user entered
+     */
     private TimeSlot setTimeslot() {
         int day, month, year, startingHour, endingHour;
         System.out.println("Enter timeslot details: ");
@@ -138,6 +155,9 @@ public class PlayerUI {
         return new TimeSlot(day, month, year, startingHour, endingHour);
     }
 
+    /**
+     * Allows a player to enter a time slot and view the available playgrounds at this time slot
+     */
     private void filterPlaygrounds() {
         TimeSlot timeSlot = setTimeslot();
         for (Playground playground : playgrounds) {
@@ -158,6 +178,9 @@ public class PlayerUI {
         }
     }
 
+    /**
+     * Allows a player to book a playground by entering its booking number (ID) and the desired time slot
+     */
     private void bookPlayground() {
         System.out.print("Enter playground booking number: ");
         int bookingNumber = scanner.nextInt();
@@ -193,6 +216,9 @@ public class PlayerUI {
         }
     }
 
+    /**
+     * Creates a team of the player by entering its name and the players to be added to the team
+     */
     private void createTeam() {
         System.out.print("Enter Team name: ");
         String name = scanner.nextLine();
@@ -224,6 +250,9 @@ public class PlayerUI {
         players.get(currentPlayer).createTeam(name, teamPlayers);
     }
 
+    /**
+     * Modifies the team the player owns by entering the new team name and team members
+     */
     private void modifyTeam() {
         if (players.get(currentPlayer).getTeamOwned() == null) {
             System.out.println("***There is no team to modify, consider creating a team firstly***");
@@ -259,6 +288,9 @@ public class PlayerUI {
         players.get(currentPlayer).modifyTeam(name, teamPlayers);
     }
 
+    /**
+     * Allows a player to leave a team by entering its name
+     */
     private void leaveTeam() {
         System.out.println("Enter team name: ");
         String teamName = scanner.nextLine();
@@ -269,6 +301,9 @@ public class PlayerUI {
         }
     }
 
+    /**
+     * Allows a player to report a playground by entering its name
+     */
     private void reportPlayground() {
         System.out.println("Enter Playground booking number: ");
         int playgroundName = scanner.nextInt();
@@ -285,6 +320,9 @@ public class PlayerUI {
         else System.out.println("There is no such playground");
     }
 
+    /**
+     * Outputs the current bookings of the player
+     */
     private void viewBookings() {
         System.out.println("\nThese are your current Bookings: ");
         for (Playground playground : playgrounds) {
@@ -303,6 +341,9 @@ public class PlayerUI {
         }
     }
 
+    /**
+     * Outputs the current teams the player is enrolled into or owns
+     */
     private void viewTeams() {
         boolean hasTeams = false;
         if (players.get(currentPlayer).getTeamOwned() != null) {

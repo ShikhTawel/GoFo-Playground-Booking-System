@@ -7,6 +7,9 @@ import src.Users.Administrator;
 import src.Users.Player;
 import java.util.*;
 
+/**
+ * {@code UI} class is used to enable users and admins to interact with the system using the console, and direct them to other specific UI classes
+ */
 public class UI {
 
     ArrayList<Player> players;
@@ -15,6 +18,9 @@ public class UI {
     ArrayList<Administrator> admins;
     private Scanner scanner = new Scanner(System.in);
 
+    /**
+     * A constructor for the {@code UI} object
+     */
     public UI(ArrayList<Player> players, ArrayList<PlaygroundOwner> owners, ArrayList<Playground> playgrounds, ArrayList<Administrator> admins) {
         this.players = players;
         this.owners = owners;
@@ -23,6 +29,9 @@ public class UI {
         mainMenu();
     }
 
+    /**
+     * A main menu that allows users and admins to login or register to the system, and redirects them to different parts of the system
+     */
     public void mainMenu() {
         String option = "";
         while (true) {
@@ -47,6 +56,9 @@ public class UI {
         System.out.println("\nThanks for using GoFo Booking System");
     }
 
+    /**
+     * Registers a new user to the system by entering the appropriate data
+     */
     private void signUp() {
         String username, password, phone, email, firstName, lastName, streetName, neighborhood, city;
         int strNumber;
@@ -82,7 +94,6 @@ public class UI {
             }
         }
         sendEmailVerificationCode();
-        scanner.skip("\n");
         System.out.print("Enter Phone Number: ");
         phone = scanner.nextLine();
         System.out.print("Enter First Name: ");
@@ -118,6 +129,9 @@ public class UI {
         }
     }
 
+    /**
+     * Logs users into the system and redirects them to their proper UI
+     */
     private void login() {
         String username, password;
         boolean foundUser = false;
@@ -163,6 +177,11 @@ public class UI {
         }
     }
 
+    /**
+     * Checks if the password is strong or not
+     * @param password the password to be checked
+     * @return whether the password is strong
+     */
     private boolean checkStrongPassword(String password) {
         boolean strong = false;
         if (password.length() < 8) {
@@ -182,6 +201,11 @@ public class UI {
         return (symbols >= 1 && uppercase >= 1);
     }
 
+    /**
+     * Checks the email is valid or not
+     * @param email the email to be checked
+     * @return whether the email is valid
+     */
     private boolean checkEmail(String email) {
         boolean validEmail;
 
@@ -194,6 +218,11 @@ public class UI {
         return validEmail && availableEmail(email);
     }
 
+    /**
+     * Checks if the email is available or already registered
+     * @param email the email to be checked
+     * @return whether the email is available
+     */
     private boolean availableEmail(String email) {
         for (Player player: players) {
             if (player.getEmail().equalsIgnoreCase(email)) {
@@ -208,6 +237,11 @@ public class UI {
         return true;
     }
 
+    /**
+     * Checks if the username is available or already taken
+     * @param username the username to be checked
+     * @return whether the username is available
+     */
     private boolean checkUsername(String username) {
         for (Player player: players) {
             if (player.getUsername().equalsIgnoreCase(username)) {
@@ -222,12 +256,18 @@ public class UI {
         return true;
     }
 
+    /**
+     * Sends a verification code to the email and verifies it
+     */
     private void sendEmailVerificationCode() {
         System.out.println("Enter verification code sent to your email: ");
         String userCode = scanner.nextLine();
         System.out.println("Verified ✅");
     }
 
+    /**
+     * Logs an admin into the system and redirects him to the Admin UI
+     */
     private void adminLogin() {
         String username, password;
         System.out.print("Enter username: ");

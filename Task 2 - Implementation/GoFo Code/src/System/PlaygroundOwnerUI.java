@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * {@code PlaygroundOwnerUI} class is used to enable playground owners to interact with the system using the console
+ */
 public class PlaygroundOwnerUI{
 
     private Scanner scanner = new Scanner(System.in);
@@ -16,6 +19,10 @@ public class PlaygroundOwnerUI{
     private ArrayList<PlaygroundOwner> playgroundOwners;
     private int currentOwner;
 
+    /**
+     * A constructor for the PlaygroundOwnerUI
+     * @param currentOwner the index of the current playground owner logged into the system
+     */
     public PlaygroundOwnerUI(ArrayList<Playground> playgrounds, ArrayList<PlaygroundOwner> playgroundOwners, int currentOwner) {
         this.playgrounds = playgrounds;
         this.playgroundOwners = playgroundOwners;
@@ -23,6 +30,9 @@ public class PlaygroundOwnerUI{
         mainMenu();
     }
 
+    /**
+     * A main menu that allows owners to choose an operation to be done and redirects them to different parts of the system
+     */
     public void mainMenu() {
         String option = "";
         while (true) {
@@ -47,6 +57,9 @@ public class PlaygroundOwnerUI{
         System.out.println("\nLogging out ...");
     }
 
+    /**
+     * Allows an owner to enter a new playground's data and to be added to the system and storing it in their account
+     */
     private void addPlayground() {
         Playground playground = new Playground(playgroundOwners.get(currentOwner));
 
@@ -99,10 +112,17 @@ public class PlaygroundOwnerUI{
         System.out.println("\nPlayground added successfully ✅, waiting for approval by an administrator.");
     }
 
+    /**
+     * Outputs the list of playgrounds the owner owns and their details
+     */
     private void viewBookings() {
         System.out.println(playgroundOwners.get(currentOwner).getBookings());
     }
 
+    /**
+     * Allows a user to enter the data of a time slot
+     * @return the time slot entered by the user
+     */
     private TimeSlot setTimeslot() {
         int day, month, year, startingHour, endingHour;
         System.out.println("Enter timeslot details: ");

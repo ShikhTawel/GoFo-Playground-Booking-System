@@ -4,15 +4,25 @@ import src.Users.*;
 
 import java.util.Scanner;
 
+/**
+ * {@code eWalletUI} class is used to enable users to access their eWallets and do operations on them
+ */
 public class eWalletUI {
     private User user;
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * A constructor for the {@code eWalletUI} object
+     * @param user the current user logged into the system
+     */
     public eWalletUI(User user) {
         this.user = user;
         mainMenu();
     }
 
+    /**
+     * A main menu that allows a user to do choose an operation to be done on their eWallets
+     */
     public void mainMenu() {
         String option = "";
         System.out.println("Enter an option");
@@ -37,10 +47,16 @@ public class eWalletUI {
         System.out.println("\nExiting ...");
     }
 
+    /**
+     * Outputs the current balance of the user's eWallet
+     */
     public void viewBalance() {
         System.out.println("Your Current Balance is: " + user.getEwallet().getBalance());
     }
 
+    /**
+     * Allows users to deposit to their eWallet accounts by entering the amount
+     */
     public void deposit() {
         System.out.print("Enter the amount to deposit: ");
         double amount;
@@ -53,6 +69,9 @@ public class eWalletUI {
         }
     }
 
+    /**
+     * Allows users to withdraw from their eWallet accounts by entering the amount
+     */
     public void withdraw() {
         System.out.print("Enter the amount to withdraw: ");
         double amount;
