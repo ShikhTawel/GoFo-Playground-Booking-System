@@ -32,6 +32,7 @@ it has two main user types:
 Documenting the code implemented earlier using JavaDoc and generating the HTML pages for the documentation
 ***
 ### Team members: 
+[Mahmoud Abdelazim](https://github.com/MahmoudAbdelazim) \
 [Amr Bumadian](https://github.com/AmrBumadian) \
 [Ahmed Alaa](https://github.com/ShikhTawel) \
 [Ziad Amr](https://github.com/ZiadAmr14) \
