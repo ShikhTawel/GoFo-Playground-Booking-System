@@ -1,5 +1,6 @@
 package src.Users;
-import src.System.Address;
+import src.Utilities.Address;
+import src.Utilities.eWallet;
 
 public abstract class User {
     protected String firstName;
@@ -20,29 +21,6 @@ public abstract class User {
         mobileNumber = mn;
         address = ad;
         ewallet = new eWallet();
-    }
-
-    public void updateInfo(int i, String update) {
-        switch (i) {
-            case 1:
-                firstName = update;
-                break;
-            case 2:
-                lastName = update;
-                break;
-            case 3:
-                email = update;
-                break;
-            case 4:
-                username = update;
-                break;
-            case 5:
-                password = update;
-                break;
-            case 6:
-                mobileNumber = update;
-                break;
-        }
     }
 
     public void checkEWallet() {

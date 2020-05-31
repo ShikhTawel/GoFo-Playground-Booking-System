@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public class Team {
     private String teamName;
-    private int teamCount;
     private String ownerUsername;
     private ArrayList<Player> players;
     private static int cnt = 0;
@@ -11,7 +10,6 @@ public class Team {
     public Team(String name, String username) {
         teamName = name;
         ownerUsername = username;
-        teamCount=0;
         players=new ArrayList<>();
     }
 
@@ -26,8 +24,8 @@ public class Team {
     }
 
     public void clearTeam() {
-        for (Player player: players) {
-            deletePlayer(player);
+        for (int i = 0; i < players.size(); i++) {
+            deletePlayer(players.get(0));
         }
     }
 
@@ -35,7 +33,6 @@ public class Team {
     public String toString() {
         String res =
                 "Team name: " + teamName
-                + "\nNumber of players: " + teamCount
                 + "\nUsername of the Owner Player: " + ownerUsername
                 + "\nOther Players: \n";
         for (Player player: players) {
@@ -46,7 +43,11 @@ public class Team {
     }
 
     public void sendInvitations() {
-        // send Email invitations
+        for (Player player: players) {
+            if (!player.getUsername().equalsIgnoreCase(ownerUsername)) {
+                System.out.println("Invitation sent to: " + player.getEmail());
+            }
+        }
     }
 
     public String getTeamName() {
@@ -55,14 +56,6 @@ public class Team {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
-    }
-
-    public int getTeamCount() {
-        return teamCount;
-    }
-
-    public void setTeamCount(int teamCount) {
-        this.teamCount = teamCount;
     }
 
     public String getOwnerUsername() {

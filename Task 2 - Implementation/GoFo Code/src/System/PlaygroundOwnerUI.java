@@ -1,15 +1,15 @@
 package src.System;
 
-import src.Playground.Playground;
-import src.Playground.PlaygroundOwner;
-import src.Playground.TimeSlot;
+import src.Utilities.Address;
+import src.Utilities.Playground;
+import src.Users.PlaygroundOwner;
+import src.Utilities.TimeSlot;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PlaygroundOwnerUI implements MainMenu {
+public class PlaygroundOwnerUI{
 
     private Scanner scanner = new Scanner(System.in);
     private ArrayList<Playground> playgrounds;
@@ -20,11 +20,87 @@ public class PlaygroundOwnerUI implements MainMenu {
         this.playgrounds = playgrounds;
         this.playgroundOwners = playgroundOwners;
         this.currentOwner = currentOwner;
+        mainMenu();
     }
 
-    @Override
     public void mainMenu() {
+        String option = "";
+        while (true) {
+            System.out.println("\n1- Add a Playground" +
+                    "\n2- View current Bookings" +
+                    "\n3- Access eWallet" +
+                    "\n4- Logout");
+            option = scanner.nextLine();
+            if (option.equalsIgnoreCase("1")) {
+                addPlayground();
+            } else if (option.equalsIgnoreCase("2")) {
+                viewBookings();
+            } else if (option.equalsIgnoreCase("3")) {
+                eWalletUI eWalletUI = new eWalletUI(playgroundOwners.get(currentOwner));
+            } else if (option.equalsIgnoreCase("4")) {
+                break;
+            }
+            else {
+                System.out.println("***Enter valid option***\n");
+            }
+        }
+        System.out.println("\nLogging out ...");
+    }
 
+    private void addPlayground() {
+        Playground playground = new Playground(playgroundOwners.get(currentOwner));
+
+        System.out.print("Enter Playground Name: ");
+        String playgroundName = scanner.nextLine();
+        playground.setPlaygroundName(playgroundName);
+
+        System.out.println("Enter Playground description: ");
+        String description = scanner.nextLine();
+        playground.setDescription(description);
+
+        System.out.println("Enter Address: ");
+        System.out.print("Enter Street number: ");
+        int streetNumber = scanner.nextInt();
+        System.out.print("Enter Street name: ");
+        scanner.skip("\n");
+        String streetName = scanner.nextLine();
+        System.out.print("Enter Neighborhood: ");
+        String neighborhood = scanner.nextLine();
+        System.out.print("Enter City: ");
+        String city = scanner.nextLine();
+
+        Address address = new Address(streetNumber, streetName, neighborhood, city);
+        playground.setAddress(address);
+
+        System.out.println("Enter Link: ");
+        String link = scanner.nextLine();
+        playground.setLink(link);
+
+        System.out.println("Enter pricePerHour: ");
+        double pricePerHour = scanner.nextDouble();
+        playground.setPricePerHour(pricePerHour);
+
+        var timeSlots = new ArrayList<TimeSlot>();
+        TimeSlot timeSlot;
+        while (true) {
+            System.out.println("Enter available timeslot: ");
+            timeSlot = setTimeslot();
+            timeSlots.add(timeSlot);
+            System.out.println("Add another timeslot? Enter 'Y' for yes or any key to exit");
+            String option = scanner.nextLine();
+            if (!option.equalsIgnoreCase("Y")) {
+                break;
+            }
+        }
+        playground.setAvailability(timeSlots);
+        playgroundOwners.get(currentOwner).addPlayground(playground);
+        playgrounds.add(playgroundOwners.get(currentOwner).getPlaygrounds()
+                .get(playgroundOwners.get(currentOwner).getPlaygrounds().size() - 1));
+        System.out.println("\nPlayground added successfully ✅, waiting for approval by an administrator.");
+    }
+
+    private void viewBookings() {
+        System.out.println(playgroundOwners.get(currentOwner).getBookings());
     }
 
     private TimeSlot setTimeslot() {
@@ -76,66 +152,7 @@ public class PlaygroundOwnerUI implements MainMenu {
                 break;
             }
         }
-
+        scanner.skip("\n");
         return new TimeSlot(day, month, year, startingHour, endingHour);
-    }
-
-    private void addPlayground() {
-        Playground playground = new Playground();
-
-        System.out.print("Enter Playground Name: ");
-        String playgroundName = scanner.nextLine();
-        playground.setPlaygroundName(playgroundName);
-
-        System.out.println("Enter Playground description: ");
-        String description = scanner.nextLine();
-        playground.setDescription(description);
-
-        System.out.println("Enter Playground Address as following:\n no. st neighborhood city ");
-
-        int streetNumber = scanner.nextInt();
-        String streetName = scanner.next();
-        String neighborhood = scanner.next();
-        String city = scanner.next();
-
-        Address address = new Address(streetNumber, streetName, neighborhood, city);
-        playground.setAddress(address);
-
-        System.out.println("Enter Link: ");
-        String link = scanner.nextLine();
-
-        System.out.println("Enter pricePerHour: ");
-        double pricePerHour = scanner.nextDouble();
-
-        var timeSlots = new ArrayList<TimeSlot>();
-        TimeSlot timeSlot;
-        while (true) {
-            System.out.println("Enter available timeslot: ");
-            timeSlot = setTimeslot();
-            timeSlots.add(timeSlot);
-            System.out.println("Add another timeslot? Enter 'Y or any key to exit");
-            String option = scanner.nextLine();
-            if (!option.equalsIgnoreCase("Y")) {
-                break;
-            }
-        }
-        playgroundOwners.get(currentOwner).addPlayground(playground);
-        playgroundOwners.get(currentOwner).getPlaygrounds().get(playgroundOwners.get(currentOwner).getPlaygrounds().size()-1).setAvailability(timeSlots);
-
-        System.out.println("Playground added successfully, waiting for activation.");
-    }
-
-    /*private boolean updatePlayground() {
-
-        boolean foundPlayground = false;
-
-        // find Playground and update it
-        // make foundPlayground true
-
-        return foundPlayground;
-    }*/
-
-    private void viewBookings() {
-        System.out.println(playgroundOwners.get(currentOwner).getBookings());
     }
 }

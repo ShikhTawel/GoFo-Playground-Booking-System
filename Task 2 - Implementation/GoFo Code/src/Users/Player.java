@@ -1,29 +1,23 @@
 package src.Users;
 
-import src.Playground.Playground;
-import src.Playground.TimeSlot;
-import src.System.Address;
+import src.Utilities.Playground;
+import src.Utilities.TimeSlot;
+import src.Utilities.Address;
 
 import java.util.ArrayList;
 
 public class Player extends User {
-
-    private ArrayList<Playground> bookedPlaygrounds;
-    private ArrayList<TimeSlot> bookedTimeSlots;
     private Team teamOwned;
     private ArrayList<Team> teamsEnrolled;
 
     public Player(String fn, String ln, String em, String pass, String un, String mn, Address ad) {
         super(fn, ln, em, pass, un, mn, ad);
-        bookedPlaygrounds = new ArrayList<>();
-        bookedTimeSlots = new ArrayList<>();
         teamsEnrolled = new ArrayList<>();
+        teamOwned = null;
     }
 
     public boolean bookPlayground(Playground playground, TimeSlot timeSlot) {
-        if (playground.isActivated() && playground.bookPlayground(timeSlot, this.username) ) {
-            bookedPlaygrounds.add(playground);
-            bookedTimeSlots.add(timeSlot);
+        if (playground.isActivated() && playground.bookPlayground(timeSlot, this) ) {
             return true;
         }
         return false;
@@ -54,6 +48,11 @@ public class Player extends User {
                 return true;
             }
         }
+        if (teamOwned.getTeamName().equalsIgnoreCase(name)) {
+            teamOwned.clearTeam();
+            teamOwned = null;
+            return true;
+        }
         return false;
     }
 
@@ -61,14 +60,6 @@ public class Player extends User {
         if (playground.isActivated()) {
             playground.reportPlayground();
         }
-    }
-
-    public ArrayList<Playground> getBookedPlaygrounds() {
-        return bookedPlaygrounds;
-    }
-
-    public ArrayList<TimeSlot> getBookedTimeSlots() {
-        return bookedTimeSlots;
     }
 
     public Team getTeamOwned() {
