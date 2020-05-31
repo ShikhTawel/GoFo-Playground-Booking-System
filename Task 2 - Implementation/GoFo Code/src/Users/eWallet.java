@@ -26,7 +26,7 @@ public class eWallet {
     public boolean transfer(double amount, User user) {
         if (amount > currentBalance || amount <= 0)
             return false;
-        user.getEwallet().currentBalance += amount;
+        user.getEwallet().deposit(amount);
         currentBalance -= amount;
         return true;
     }
