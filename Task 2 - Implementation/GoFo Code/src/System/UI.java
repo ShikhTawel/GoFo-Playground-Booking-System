@@ -78,7 +78,7 @@ public class UI {
             email = scanner.nextLine();
             boolean validEmail = checkEmail(email);
             if (!validEmail) {
-                System.out.println("***Email already registered***\n");
+                System.out.println("***Email Not available***\n");
             } else {
                 break;
             }
@@ -100,7 +100,7 @@ public class UI {
         firstName = scanner.nextLine();
         System.out.print("Enter Last Name: ");
         lastName = scanner.nextLine();
-        System.out.println("Enter Address: ");
+        System.out.println("Address Informations;- ");
         System.out.print("Enter Street number: ");
         strNumber = scanner.nextInt();
         System.out.print("Enter Street name: ");
@@ -136,9 +136,9 @@ public class UI {
         String username, password;
         boolean foundUser = false;
         boolean correctPassword = false;
-        System.out.print("Enter username: ");
+        System.out.print("Enter Username: ");
         username = scanner.nextLine();
-        System.out.print("Enter password: ");
+        System.out.print("Enter Password: ");
         password = scanner.nextLine();
         int userIdx = -1;
         for (Player player: players) {

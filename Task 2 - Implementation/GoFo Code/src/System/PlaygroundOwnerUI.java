@@ -116,7 +116,7 @@ public class PlaygroundOwnerUI{
      * Outputs the list of playgrounds the owner owns and their details
      */
     private void viewBookings() {
-        System.out.println(playgroundOwners.get(currentOwner).getBookings());
+        playgroundOwners.get(currentOwner).showBookings();
     }
 
     /**

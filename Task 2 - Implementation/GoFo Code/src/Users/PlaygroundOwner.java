@@ -72,4 +72,15 @@ public class PlaygroundOwner extends User {
         return res;
     }
 
+    public void showBookings()
+    {
+        if (playgrounds.size()==0)
+        {
+            System.out.println("There is no Bookings now");
+            return;
+        }
+        for (int i = 0 ; i<playgrounds.size();i++)
+            System.out.println(playgrounds.get(i).toString());
+    }
+
 }

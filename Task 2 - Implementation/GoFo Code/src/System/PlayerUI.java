@@ -83,17 +83,13 @@ public class PlayerUI {
     private void viewAvailablePlaygrounds() {
         for (Playground playground : playgrounds) {
             if (!playground.isActivated()) continue;
-            boolean printed = false;
             for (int i = 0; i < playground.getAvailability().size(); ++i) {
                 if (!playground.getAvailability().get(i).isBooked()) {
-                    if (!printed) {
-                        System.out.println("==========================================");
-                        System.out.println("Playground Name: " + playground.getPlaygroundName());
-                        System.out.println("Playground Address: \n" + playground.getAddress().toString());
-                        printed = true;
-                    }
-                    System.out.println(playground.getAvailability().get(i).toString());
+                    System.out.println("==========================================");
+                    System.out.println("Playground Name: " + playground.getPlaygroundName());
+                    System.out.println("Playground Address: \n" + playground.getAddress().toString());
                 }
+                System.out.println(playground.getAvailability().get(i).toString());
             }
         }
     }
@@ -243,7 +239,7 @@ public class PlayerUI {
             }
             System.out.println("Enter 'Y' to add another player or any key to exit");
             String option = scanner.nextLine();
-            if (!option.equals("Y")) {
+            if (!option.equalsIgnoreCase("Y")) {
                 break;
             }
         }
@@ -281,7 +277,7 @@ public class PlayerUI {
             }
             System.out.println("Enter 'Y' to add another player or any key to exit");
             String option = scanner.nextLine();
-            if (!option.equals("Y")) {
+            if (!option.equalsIgnoreCase("Y")) {
                 break;
             }
         }

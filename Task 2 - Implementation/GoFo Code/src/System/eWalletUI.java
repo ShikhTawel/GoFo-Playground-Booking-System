@@ -77,7 +77,7 @@ public class eWalletUI {
         double amount;
         amount = scanner.nextDouble();
         scanner.skip("\n");
-        if (user.getEwallet().deposit(amount)) {
+        if (user.getEwallet().withdraw(amount)) {
             System.out.println("Withdrew " + amount + " successfully");
         } else {
             System.out.println("Invalid amount to withdraw");
